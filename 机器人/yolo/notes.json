@@ -1,0 +1,25 @@
+{
+  "categories": [
+    {
+      "id": 0,
+      "name": "brick"
+    },
+    {
+      "id": 1,
+      "name": "grass"
+    },
+    {
+      "id": 2,
+      "name": "lucky"
+    },
+    {
+      "id": 3,
+      "name": "stone"
+    }
+  ],
+  "info": {
+    "year": 2026,
+    "version": "1.0",
+    "contributor": "Label Studio"
+  }
+}

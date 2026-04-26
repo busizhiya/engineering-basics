@@ -1,0 +1,8 @@
+path: D:\code\my_data\my_data1
+train: D:\code\my_data\my_data1\splits\train.txt
+val: D:\code\my_data\my_data1\splits\val.txt
+names:
+  0: brick
+  1: grass
+  2: lucky
+  3: stone
