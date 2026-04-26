@@ -1,0 +1,20 @@
+{
+  "rows": 84250,
+  "annotation_rows": 165,
+  "label_window_seconds": 0.4,
+  "mass_supervised_rows": 6580,
+  "reverse_supervised_rows": 6580,
+  "dt_seconds": 0.01999999999998181,
+  "window_points": 50,
+  "smooth_points": 150,
+  "feature_count_strain": 64,
+  "feature_count_disp": 4,
+  "mass_model_count": 5,
+  "reverse_model_count": 5,
+  "disp_model_count": 5,
+  "classifier_accuracy": 0.7710427376659249,
+  "regression_mae": 1.9069824263053077,
+  "regression_rmse": 2.4402911466663544,
+  "reverse_strain_mae": 1.7176713298955733,
+  "disp_mae": 0.5283092636221816
+}

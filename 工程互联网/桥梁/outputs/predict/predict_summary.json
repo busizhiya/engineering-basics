@@ -1,0 +1,9 @@
+{
+  "mode": "mass_to_displacement",
+  "sensor_cm": 98.0,
+  "load_cm": 68.0,
+  "mass": 9.867,
+  "pred_relative_displacement": -2.606899335873506,
+  "k_disp_vs_mass": -0.241673902626698,
+  "c_disp_vs_mass": -0.2223029386558768
+}

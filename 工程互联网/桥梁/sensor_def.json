@@ -1,0 +1,996 @@
+[
+    {
+        "id": "vibr01",
+        "name": "加速度-左-1",
+        "code": "v00013",
+        "type": "vibr",
+        "sn": "WSMS00013",
+        "channel": "",
+        "position": [
+            -0.1,
+            -0.193,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr01",
+        "name": "加速度-左-2",
+        "code": "v00014",
+        "type": "vibr",
+        "sn": "WSMS00014",
+        "channel": "",
+        "position": [
+            0,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr01",
+        "name": "加速度-左-3",
+        "code": "v00015",
+        "type": "vibr",
+        "sn": "WSMS00015",
+        "channel": "",
+        "position": [
+            0.2,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr02",
+        "name": "加速度-左-4",
+        "code": "v00016",
+        "type": "vibr",
+        "sn": "WSMS00016",
+        "channel": "",
+        "position": [
+            0.3,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr03",
+        "name": "加速度-左-5",
+        "code": "v00017",
+        "type": "vibr",
+        "sn": "WSMS00017",
+        "channel": "",
+        "position": [
+            0.5,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr04",
+        "name": "加速度-左-6",
+        "code": "v00018",
+        "type": "vibr",
+        "sn": "WSMS00018",
+        "channel": "",
+        "position": [
+            0.6,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr05",
+        "name": "加速度-左-7",
+        "code": "v00019",
+        "type": "vibr",
+        "sn": "WSMS00019",
+        "channel": "",
+        "position": [
+            0.8,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr06",
+        "name": "加速度-左-8",
+        "code": "v00020",
+        "type": "vibr",
+        "sn": "WSMS00020",
+        "channel": "",
+        "position": [
+            0.9,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr07",
+        "name": "加速度-左-9",
+        "code": "v00021",
+        "type": "vibr",
+        "sn": "WSMS00021",
+        "channel": "",
+        "position": [
+            1.1,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr08",
+        "name": "加速度-左-10",
+        "code": "v00022",
+        "type": "vibr",
+        "sn": "WSMS00022",
+        "channel": "",
+        "position": [
+            1.2,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr09",
+        "name": "加速度-右-1",
+        "code": "v00023",
+        "type": "vibr",
+        "sn": "WSMS00023",
+        "channel": "",
+        "position": [
+            -0.1,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr10",
+        "name": "加速度-右-2",
+        "code": "v00024",
+        "type": "vibr",
+        "sn": "WSMS00024",
+        "channel": "",
+        "position": [
+            0,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr11",
+        "name": "加速度-右-3",
+        "code": "v00025",
+        "type": "vibr",
+        "sn": "WSMS00025",
+        "channel": "",
+        "position": [
+            0.2,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr12",
+        "name": "加速度-右-4",
+        "code": "v00026",
+        "type": "vibr",
+        "sn": "WSMS00026",
+        "channel": "",
+        "position": [
+            0.3,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr13",
+        "name": "加速度-右-5",
+        "code": "v00027",
+        "type": "vibr",
+        "sn": "WSMS00027",
+        "channel": "",
+        "position": [
+            0.5,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr14",
+        "name": "加速度-右-6",
+        "code": "v00028",
+        "type": "vibr",
+        "sn": "WSMS00028",
+        "channel": "",
+        "position": [
+            0.6,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr15",
+        "name": "加速度-右-7",
+        "code": "v00029",
+        "type": "vibr",
+        "sn": "WSMS00029",
+        "channel": "",
+        "position": [
+            0.8,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr16",
+        "name": "加速度-右-8",
+        "code": "v00030",
+        "type": "vibr",
+        "sn": "WSMS00030",
+        "channel": "",
+        "position": [
+            0.9,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr17",
+        "name": "加速度-右-9",
+        "code": "v00031",
+        "type": "vibr",
+        "sn": "WSMS00031",
+        "channel": "",
+        "position": [
+            1.1,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr18",
+        "name": "加速度-右-10",
+        "code": "v00032",
+        "type": "vibr",
+        "sn": "WSMS00032",
+        "channel": "",
+        "position": [
+            1.2,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "sgd01",
+        "name": "应变-塔上-1",
+        "code": "s0005-1",
+        "type": "sgd",
+        "sn": "WSGD00005",
+        "channel": "1",
+        "position": [
+            -0.025,
+            0,
+            0.65
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd01",
+        "name": "应变-塔上-2",
+        "code": "s00022-1",
+        "type": "sgd",
+        "sn": "WSGD00002",
+        "channel": "1",
+        "position": [
+            0.025,
+            0,
+            0.65
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd02",
+        "name": "应变-塔中-1",
+        "code": "s0005-2",
+        "type": "sgd",
+        "sn": "WSGD00005",
+        "channel": "2",
+        "position": [
+            -0.025,
+            0,
+            0
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd03",
+        "name": "应变-塔中-2",
+        "code": "s00022-2",
+        "type": "sgd",
+        "sn": "WSGD000022",
+        "channel": "2",
+        "position": [
+            0.025,
+            0,
+            0
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd04",
+        "name": "应变-塔下-1",
+        "code": "s0005-3",
+        "type": "sgd",
+        "sn": "WSGD00005",
+        "channel": "3",
+        "position": [
+            -0.025,
+            0,
+            -0.45
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd05",
+        "name": "应变-塔下-2",
+        "code": "s00022-3",
+        "type": "sgd",
+        "sn": "WSGD000022",
+        "channel": "3",
+        "position": [
+            0.025,
+            0,
+            -0.45
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd01",
+        "name": "应变-梁左-11",
+        "code": "s00017-1",
+        "type": "sgd",
+        "sn": "WSGD000017",
+        "channel": "1",
+        "position": [
+            -0.8525,
+            -0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd02",
+        "name": "应变-梁左-12",
+        "code": "s00017-2",
+        "type": "sgd",
+        "sn": "WSGD00017",
+        "channel": "2",
+        "position": [
+            -0.8275,
+            -0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd03",
+        "name": "应变-梁左-13",
+        "code": "s00017-3",
+        "type": "sgd",
+        "sn": "WSGD00017",
+        "channel": "3",
+        "position": [
+            -0.8275,
+            -0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd04",
+        "name": "应变-梁左-21",
+        "code": "s00018-1",
+        "type": "sgd",
+        "sn": "WSGD00018",
+        "channel": "1",
+        "position": [
+            -0.5525,
+            -0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd05",
+        "name": "应变-梁左-22",
+        "code": "s00018-2",
+        "type": "sgd",
+        "sn": "WSGD00018",
+        "channel": "2",
+        "position": [
+            -0.5275,
+            -0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd06",
+        "name": "应变-梁左-23",
+        "code": "s00018-3",
+        "type": "sgd",
+        "sn": "WSGD00018",
+        "channel": "3",
+        "position": [
+            -0.5275,
+            -0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd07",
+        "name": "应变-梁左-31",
+        "code": "s00019-1",
+        "type": "sgd",
+        "sn": "WSGD00019",
+        "channel": "1",
+        "position": [
+            0.01,
+            -0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd08",
+        "name": "应变-梁左-32",
+        "code": "s00019-2",
+        "type": "sgd",
+        "sn": "WSGD00019",
+        "channel": "2",
+        "position": [
+            0,
+            -0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd09",
+        "name": "应变-梁左-33",
+        "code": "s00019-3",
+        "type": "sgd",
+        "sn": "WSGD00019",
+        "channel": "3",
+        "position": [
+            0,
+            -0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd10",
+        "name": "应变-梁左-41",
+        "code": "s0010-1",
+        "type": "sgd",
+        "sn": "WSGD00010",
+        "channel": "1",
+        "position": [
+            1.51,
+            -0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd11",
+        "name": "应变-梁左-42",
+        "code": "s0010-2",
+        "type": "sgd",
+        "sn": "WSGD00010",
+        "channel": "2",
+        "position": [
+            1.5,
+            -0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd12",
+        "name": "应变-梁左-43",
+        "code": "s0010-3",
+        "type": "sgd",
+        "sn": "WSGD00010",
+        "channel": "3",
+        "position": [
+            1.5,
+            -0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd13",
+        "name": "应变-梁左-51",
+        "code": "s0011-1",
+        "type": "sgd",
+        "sn": "WSGD00011",
+        "channel": "1",
+        "position": [
+            1.81,
+            -0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd14",
+        "name": "应变-梁左-52",
+        "code": "s0011-2",
+        "type": "sgd",
+        "sn": "WSGD00011",
+        "channel": "2",
+        "position": [
+            1.8,
+            -0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd15",
+        "name": "应变-梁左-53",
+        "code": "s0011-3",
+        "type": "sgd",
+        "sn": "WSGD00011",
+        "channel": "3",
+        "position": [
+            1.8,
+            -0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd01",
+        "name": "应变-梁右-11",
+        "code": "s0012-1",
+        "type": "sgd",
+        "sn": "WSGD00012",
+        "channel": "1",
+        "position": [
+            -0.8525,
+            0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd02",
+        "name": "应变-梁右-12",
+        "code": "s0012-2",
+        "type": "sgd",
+        "sn": "WSGD00012",
+        "channel": "2",
+        "position": [
+            -0.8275,
+            0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd03",
+        "name": "应变-梁右-13",
+        "code": "s0012-3",
+        "type": "sgd",
+        "sn": "WSGD00012",
+        "channel": "3",
+        "position": [
+            -0.8275,
+            0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd04",
+        "name": "应变-梁右-21",
+        "code": "s0013-1",
+        "type": "sgd",
+        "sn": "WSGD00013",
+        "channel": "1",
+        "position": [
+            -0.5525,
+            0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd05",
+        "name": "应变-梁右-22",
+        "code": "s0013-2",
+        "type": "sgd",
+        "sn": "WSGD00013",
+        "channel": "2",
+        "position": [
+            -0.5275,
+            0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd06",
+        "name": "应变-梁右-23",
+        "code": "s0013-3",
+        "type": "sgd",
+        "sn": "WSGD00013",
+        "channel": "3",
+        "position": [
+            -0.5275,
+            0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd07",
+        "name": "应变-梁右-31",
+        "code": "s0014-1",
+        "type": "sgd",
+        "sn": "WSGD00014",
+        "channel": "1",
+        "position": [
+            0.01,
+            0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd08",
+        "name": "应变-梁右-32",
+        "code": "s0014-2",
+        "type": "sgd",
+        "sn": "WSGD00014",
+        "channel": "2",
+        "position": [
+            0,
+            0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd09",
+        "name": "应变-梁右-33",
+        "code": "s0014-3",
+        "type": "sgd",
+        "sn": "WSGD00014",
+        "channel": "3",
+        "position": [
+            0,
+            0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd10",
+        "name": "应变-梁右-41",
+        "code": "s0017-1",
+        "type": "sgd",
+        "sn": "WSGD00017",
+        "channel": "1",
+        "position": [
+            1.51,
+            0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd11",
+        "name": "应变-梁右-42",
+        "code": "s0017-2",
+        "type": "sgd",
+        "sn": "WSGD00017",
+        "channel": "2",
+        "position": [
+            1.5,
+            0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd12",
+        "name": "应变-梁右-43",
+        "code": "s0017-3",
+        "type": "sgd",
+        "sn": "WSGD00017",
+        "channel": "3",
+        "position": [
+            1.5,
+            0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd13",
+        "name": "应变-梁右-51",
+        "code": "s0016-1",
+        "type": "sgd",
+        "sn": "WSGD00016",
+        "channel": "1",
+        "position": [
+            1.81,
+            0.163,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd14",
+        "name": "应变-梁右-52",
+        "code": "s0016-2",
+        "type": "sgd",
+        "sn": "WSGD00016",
+        "channel": "2",
+        "position": [
+            1.8,
+            0.13,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "sgd15",
+        "name": "应变-梁右-53",
+        "code": "s0016-3",
+        "type": "sgd",
+        "sn": "WSGD00016",
+        "channel": "3",
+        "position": [
+            1.8,
+            0.33,
+            -0.005
+        ],
+        "color": "#10b981"
+    },
+    {
+        "id": "vibr01",
+        "name": "加速度-左-11",
+        "code": "v00033",
+        "type": "vibr",
+        "sn": "WSMS00033",
+        "channel": "",
+        "position": [
+            1.4,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr02",
+        "name": "加速度-左-12",
+        "code": "v00034",
+        "type": "vibr",
+        "sn": "WSMS00034",
+        "channel": "",
+        "position": [
+            1.5,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr03",
+        "name": "加速度-右-11",
+        "code": "v00035",
+        "type": "vibr",
+        "sn": "WSMS00035",
+        "channel": "",
+        "position": [
+            1.4,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr04",
+        "name": "加速度-右-12",
+        "code": "v00036",
+        "type": "vibr",
+        "sn": "WSMS00036",
+        "channel": "",
+        "position": [
+            1.5,
+            0.1935,
+            -0.035
+        ],
+        "color": "#ef4444"
+    },
+    {
+        "id": "vibr01",
+        "name": "位移传感器",
+        "code": "dist_01",
+        "type": "input",
+        "sn": "LASERE07A",
+        "channel": "",
+        "position": [
+            0.8561228774916648,
+            -0.26229123484958405,
+            0.08309364797645924
+        ],
+        "color": "#fbbf24"
+    },
+    {
+        "id": "input01",
+        "name": "小车轨迹x",
+        "code": "camx",
+        "type": "input_camera_x",
+        "sn": "Camera08A",
+        "channel": "",
+        "position": [
+            0,
+            0,
+            0
+        ],
+        "color": "#3b82f6"
+    },
+    {
+        "id": "input_camera_y01",
+        "name": "小车轨迹y",
+        "code": "camy",
+        "type": "input_camera_y",
+        "sn": "Camera08A",
+        "channel": "",
+        "position": [
+            0,
+            0,
+            0
+        ],
+        "color": "#3b82f6"
+    },
+    {
+        "id": "load1",
+        "name": "加载位置1",
+        "code": "LOAD1",
+        "type": "load",
+        "sn": "LOAD1",
+        "channel": "",
+        "position": [
+            1.3,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#77ccff"
+    },
+    {
+        "id": "load2",
+        "name": "加载位置2",
+        "code": "LOAD2",
+        "type": "load",
+        "sn": "LOAD2",
+        "channel": "",
+        "position": [
+            1.0,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#77ccff"
+    },
+    {
+        "id": "load3",
+        "name": "加载位置3",
+        "code": "LOAD3",
+        "type": "load",
+        "sn": "LOAD3",
+        "channel": "",
+        "position": [
+            0.7,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#77ccff"
+    },
+    {
+        "id": "load4",
+        "name": "加载位置4",
+        "code": "LOAD4",
+        "type": "load",
+        "sn": "LOAD4",
+        "channel": "",
+        "position": [
+            0.4,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#77ccff"
+    },
+    {
+        "id": "load5",
+        "name": "加载位置5",
+        "code": "LOAD5",
+        "type": "load",
+        "sn": "LOAD5",
+        "channel": "",
+        "position": [
+            0.1,
+            -0.1935,
+            -0.035
+        ],
+        "color": "#77ccff"
+    },
+    {
+        "id": "laser1",
+        "name": "测距仪位置1",
+        "code": "LASER1",
+        "type": "load",
+        "sn": "LOAD1",
+        "channel": "",
+        "position": [
+            1.3,
+            -0.1935,
+            -0.055
+        ],
+        "color": "#77ccff"
+    },
+    {
+        "id": "laser2",
+        "name": "测距仪位置2",
+        "code": "LASER2",
+        "type": "load",
+        "sn": "LOAD2",
+        "channel": "",
+        "position": [
+            1.0,
+            -0.1935,
+            -0.055
+        ],
+        "color": "#77ccff"
+    },
+    {
+        "id": "laser3",
+        "name": "测距仪位置3",
+        "code": "LASER3",
+        "type": "load",
+        "sn": "LOAD3",
+        "channel": "",
+        "position": [
+            0.7,
+            -0.1935,
+            -0.055
+        ],
+        "color": "#77ccff"
+    }
+]

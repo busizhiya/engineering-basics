@@ -1,0 +1,18 @@
+{
+  "signal_column": "s0011-1.chdata",
+  "signal_slug": "s0011_1_chdata",
+  "rows_annotations_used": 165,
+  "linear_model_count": 15,
+  "continuous_parameter_count": 17,
+  "k_surface_rmse": 0.516102869176686,
+  "c_surface_rmse": 6.222826385830041,
+  "artifacts": {
+    "params_csv": "D:\\code\\bridge\\outputs\\multi_signal_models\\s0011_1_chdata\\models_15_params.csv",
+    "scatter_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\s0011_1_chdata\\train_mass_displacement_scatter.png",
+    "params_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\s0011_1_chdata\\train_15_linear_model_params.png",
+    "surface_fit_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\s0011_1_chdata\\train_continuous_surface_fit.png",
+    "surface_3d_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\s0011_1_chdata\\train_continuous_surface_3d.png",
+    "aligned_x0_height_overlay": "D:\\code\\bridge\\outputs\\multi_signal_models\\s0011_1_chdata\\train_aligned_x0_height_overlay.png",
+    "continuous_model_json": "D:\\code\\bridge\\outputs\\multi_signal_models\\s0011_1_chdata\\continuous_mass_disp_model.json"
+  }
+}

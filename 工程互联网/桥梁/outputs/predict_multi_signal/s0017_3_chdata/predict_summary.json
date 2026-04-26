@@ -1,0 +1,10 @@
+{
+  "mode": "displacement_to_mass",
+  "signal_column": "s0017-3.chdata",
+  "sensor_cm": 80.0,
+  "load_cm": 85.0,
+  "input_relative_displacement": -2.95,
+  "pred_mass": 17.76159445545587,
+  "k_disp_vs_mass": -1.8631523040492173,
+  "c_disp_vs_mass": 30.142555633270405
+}

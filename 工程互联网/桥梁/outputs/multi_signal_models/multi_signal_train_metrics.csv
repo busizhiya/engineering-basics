@@ -1,0 +1,8 @@
+﻿signal_column,signal_slug,k_surface_rmse,c_surface_rmse,model_json
+dist_01.dist,dist_01_dist,0.008694730798813518,0.07209391678349786,D:\code\bridge\outputs\multi_signal_models\dist_01_dist\continuous_mass_disp_model.json
+s0017-1.chdata,s0017_1_chdata,0.4703329886514585,7.312754983693189,D:\code\bridge\outputs\multi_signal_models\s0017_1_chdata\continuous_mass_disp_model.json
+s0017-2.chdata,s0017_2_chdata,0.41130969561949526,4.795167612526599,D:\code\bridge\outputs\multi_signal_models\s0017_2_chdata\continuous_mass_disp_model.json
+s0017-3.chdata,s0017_3_chdata,0.2553833463293849,4.587514997543692,D:\code\bridge\outputs\multi_signal_models\s0017_3_chdata\continuous_mass_disp_model.json
+s0013-1.chdata,s0013_1_chdata,0.1840318425930048,2.4951030003330112,D:\code\bridge\outputs\multi_signal_models\s0013_1_chdata\continuous_mass_disp_model.json
+s0013-2.chdata,s0013_2_chdata,0.4151423817622059,5.850199474089035,D:\code\bridge\outputs\multi_signal_models\s0013_2_chdata\continuous_mass_disp_model.json
+s0013-3.chdata,s0013_3_chdata,0.12981017776485174,1.6170597037816055,D:\code\bridge\outputs\multi_signal_models\s0013_3_chdata\continuous_mass_disp_model.json

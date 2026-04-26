@@ -1,0 +1,72 @@
+{
+  "signal_column": "s0013-1.chdata",
+  "signal_slug": "s0013_1_chdata",
+  "reference_signal_column": "dist_01.dist",
+  "reference_first_frame_time": 1775122626.0,
+  "signal_first_frame_time_source": "rec:rec_1775122665065.csv:s00013-1",
+  "signal_first_frame_time": 1775122422.0,
+  "time_shift_applied_sec": 204.0,
+  "displacement_definition": "relative_to_ref_by_sensor",
+  "sensor_code_to_cm": {
+    "1": 38.0,
+    "2": 68.0,
+    "3": 98.0
+  },
+  "load_code_to_cm": {
+    "1": 38.0,
+    "2": 68.0,
+    "3": 98.0,
+    "4": 128.0,
+    "5": 158.0
+  },
+  "k_feature_type": "poly2_diag_rbf",
+  "c_feature_type": "poly2",
+  "k_feature_names": [
+    "1",
+    "sensor",
+    "load",
+    "sensor*load",
+    "sensor^2",
+    "load^2",
+    "rbf_delta_15",
+    "rbf_delta_30",
+    "rbf_delta_50",
+    "sensor_norm*rbf_delta_15",
+    "sensor_norm*rbf_delta_30"
+  ],
+  "c_feature_names": [
+    "1",
+    "sensor",
+    "load",
+    "sensor*load",
+    "sensor^2",
+    "load^2"
+  ],
+  "k_coef": [
+    -2.294204015174956,
+    0.0006105550858534086,
+    0.029982760023949367,
+    -0.00016771334272177953,
+    0.00012844899939686954,
+    -4.898506860996415e-05,
+    -0.05246120074960481,
+    -0.027907564130508003,
+    0.9894478412366009,
+    0.40669690241308615,
+    -0.4674694934414996
+  ],
+  "c_coef": [
+    7.61998514259681,
+    0.1276683902376853,
+    -0.35431497218337643,
+    -0.00011174896980243047,
+    -0.0008125959791723768,
+    0.0016655062257566933
+  ],
+  "reference_baseline_by_ref": {
+    "1": 424.987878,
+    "2": 424.127361,
+    "3": 423.71621
+  },
+  "parameter_count": 17
+}

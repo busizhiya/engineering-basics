@@ -1,0 +1,23 @@
+{
+  "signal_column": "dist_01.dist",
+  "signal_slug": "dist_01_dist",
+  "reference_first_frame_time": 1775122626.0,
+  "signal_first_frame_time_source": "rec:rec_1775122665065.csv:s00005-2",
+  "signal_first_frame_time": 1775122626.0,
+  "time_shift_applied_sec": -0.0,
+  "rows_annotations_used": 165,
+  "linear_model_count": 15,
+  "continuous_parameter_count": 17,
+  "k_surface_rmse": 0.008694730798813518,
+  "c_surface_rmse": 0.07209391678349786,
+  "artifacts": {
+    "params_csv": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\models_15_params.csv",
+    "scatter_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\train_mass_displacement_scatter.png",
+    "params_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\train_15_linear_model_params.png",
+    "surface_fit_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\train_continuous_surface_fit.png",
+    "surface_3d_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\train_continuous_surface_3d.png",
+    "aligned_x0_height_overlay": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\train_aligned_x0_height_overlay.png",
+    "alignment_debug_plot": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\train_time_alignment_debug.png",
+    "continuous_model_json": "D:\\code\\bridge\\outputs\\multi_signal_models\\dist_01_dist\\continuous_mass_disp_model.json"
+  }
+}

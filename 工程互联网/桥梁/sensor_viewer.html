@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor CSV Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui; background: #f5f5f5; padding: 10px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 15px; }
+        .controls { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; flex-wrap: wrap; }
+        .controls input, .controls select, .controls button { padding: 6px 10px; border: 1px solid #ddd; border-radius: 3px; font-size: 13px; }
+        .controls button { background: #0066cc; color: white; cursor: pointer; border: none; }
+        .controls button:hover { background: #0052a3; }
+        .sensor-select { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .sensor-select label { display: flex; align-items: center; gap: 5px; font-size: 13px; }
+        .sensor-select input[type="checkbox"] { cursor: pointer; }
+        .chart-row { width: 100%; margin-top: 15px; border: 1px solid #eee; border-radius: 3px; padding: 10px; background: #fafafa; display: flex; gap: 10px; }
+        .chart-time { flex: 3; height: 380px; }
+        .chart-freq { flex: 2; height: 380px; }
+        .mode-info { color: #666; font-size: 12px; margin-top: 5px; }
+        .annotations { margin-top: 15px; font-size: 12px; }
+        .annotation { padding: 5px 10px; background: #f0f0f0; margin: 3px 0; border-radius: 3px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .annotation-main { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .annotation-meta { color: #444; white-space: nowrap; }
+        .annotation-name { padding: 3px 6px; border: 1px solid #ccc; border-radius: 3px; font-size: 12px; min-width: 180px; }
+        .annotation button { padding: 2px 6px; font-size: 11px; background: #ff6b6b; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sensor CSV Viewer</h2>
+        <div class="controls">
+            <input type="file" id="csvFile" accept=".csv" />
+            <input type="file" id="annFile" accept=".csv" />
+            <input type="file" id="sensorDefFile" accept=".json" />
+            <label for="annTimeOffset">标注时间偏移(s)</label>
+            <input type="number" id="annTimeOffset" value="0" step="0.001" />
+            <label for="specTimeBins">频谱时间窗数</label>
+            <input type="number" id="specTimeBins" value="36" min="8" max="120" step="1" />
+            <label for="specFreqBins">频谱频率分辨率</label>
+            <input type="number" id="specFreqBins" value="64" min="8" max="256" step="1" />
+            <div class="sensor-select" id="sensorSelect"></div>
+            <button onclick="exportAnnotations()">Export Annotations</button>
+        </div>
+        <div class="mode-info">支持导入 sensor_def.json 并用中文名显示复选框；支持导入标注 CSV（time,label）；可设置标注时间偏移并导出；支持前端调节频谱时间窗数和频率分辨率；点击图表数据点添加标注；标注会显示在所有传感器图上；右侧为基于原始点(不插值)的频率-时间-振幅热力图</div>
+        <div id="chartsContainer"></div>
+        <div class="annotations">
+            <h3>Annotations:</h3>
+            <div id="annotationsList"></div>
+        </div>
+    </div>
+
+    <script>
+        let data = null, alignedData = null, alignedRawData = null, charts = {}, selectedSensors = [], annotations = [], sensorNameMap = {}, annotationTimeOffset = 0;
+        let rawDataStartTime = null;
+        const MAX_DATA_POINTS = 5000;
+        const MAX_FFT_POINTS = 2048;
+        let specMaxTimeBins = 36;
+        let specMaxFreqBins = 64;
+
+        function getEffectiveAnnotationTime(annotation) {
+            return annotation.time + annotationTimeOffset;
+        }
+
+        function parseFlexibleTime(raw) {
+            if (raw === null || raw === undefined) return NaN;
+            if (typeof raw === 'number') return Number.isFinite(raw) ? raw : NaN;
+
+            let s = String(raw).trim();
+            if (!s) return NaN;
+
+            while (s.startsWith('=')) s = s.slice(1).trim();
+            s = s.replace(/^"+|"+$/g, '').trim();
+            s = s.replace(/^'+|'+$/g, '').trim();
+            if (!s) return NaN;
+
+            const numericPattern = /^[-+]?\d+(?:\.\d+)?$/;
+            if (numericPattern.test(s)) {
+                const n = Number(s);
+                return Number.isFinite(n) ? n : NaN;
+            }
+
+            const dt = s.match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})[ T](\d{1,2}):(\d{1,2}):(\d{1,2})(?:\.(\d{1,6}))?$/);
+            if (dt) {
+                const year = Number(dt[1]);
+                const month = Number(dt[2]);
+                const day = Number(dt[3]);
+                const hour = Number(dt[4]);
+                const minute = Number(dt[5]);
+                const second = Number(dt[6]);
+                const frac = dt[7] || '';
+                const ms = Number((frac + '000').slice(0, 3));
+                const date = new Date(year, month - 1, day, hour, minute, second, ms);
+                const ts = date.getTime();
+                return Number.isFinite(ts) ? ts / 1000 : NaN;
+            }
+
+            const ts = Date.parse(s);
+            return Number.isFinite(ts) ? ts / 1000 : NaN;
+        }
+
+        function getDataStartTime(dataMap) {
+            let minT = Infinity;
+            for (const key in dataMap) {
+                const times = dataMap[key]?.times || [];
+                if (times.length === 0) continue;
+                const t0 = times[0];
+                if (Number.isFinite(t0) && t0 < minT) minT = t0;
+            }
+            return Number.isFinite(minT) ? minT : null;
+        }
+
+        // 线性插值函数
+        function interpolateData(times, values, maxPoints) {
+            if (times.length <= maxPoints) return { times, values };
+            const ratio = times.length / maxPoints;
+            const newTimes = [], newValues = [];
+            for (let i = 0; i < maxPoints; i++) {
+                const idx = i * ratio;
+                const idx0 = Math.floor(idx);
+                const idx1 = Math.ceil(idx);
+                if (idx1 >= times.length) {
+                    newTimes.push(times[times.length - 1]);
+                    newValues.push(values[values.length - 1]);
+                } else {
+                    const t = idx - idx0;
+                    newTimes.push(times[idx0] * (1 - t) + times[idx1] * t);
+                    const v0 = values[idx0], v1 = values[idx1];
+                    if (v0 !== null && v1 !== null) {
+                        newValues.push(v0 * (1 - t) + v1 * t);
+                    } else {
+                        newValues.push(v0 !== null ? v0 : v1);
+                    }
+                }
+            }
+            return { times: newTimes, values: newValues };
+        }
+
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split(',').map(h => h.trim());
+            const timeIdx = headers.indexOf('time');
+            const dataMap = {};
+
+            for (let i = 1; i < lines.length; i++) {
+                const cols = lines[i].split(',').map(c => c.trim());
+                if (cols.length < headers.length) continue;
+                const parsedTime = parseFlexibleTime(cols[timeIdx]);
+                if (!Number.isFinite(parsedTime)) continue;
+
+                for (let j = 0; j < headers.length; j++) {
+                    if (j === timeIdx || !headers[j]) continue;
+                    const key = headers[j];
+                    if (!dataMap[key]) dataMap[key] = { times: [], values: [] };
+                    dataMap[key].times.push(parsedTime);
+                    const v = Number(cols[j]);
+                    dataMap[key].values.push(Number.isFinite(v) ? v : null);
+                }
+            }
+            return dataMap;
+        }
+
+        function alignStartTimesRaw(dataMap) {
+            const aligned = {};
+            for (const key in dataMap) {
+                if (dataMap[key].times.length === 0) continue;
+                const baseTime = dataMap[key].times[0];
+                aligned[key] = {
+                    times: dataMap[key].times.map(t => t - baseTime),
+                    values: dataMap[key].values
+                };
+            }
+            return aligned;
+        }
+
+        function buildDisplayDataFromRaw(rawMap) {
+            const display = {};
+            for (const key in rawMap) {
+                display[key] = interpolateData(rawMap[key].times, rawMap[key].values, MAX_DATA_POINTS);
+            }
+            return addCompositeData(display, rawMap);
+        }
+
+        function addCompositeData(displayMap, rawMap) {
+            // 识别加速度传感器和应力传感器
+            const accGroups = {}; // { "acc": ["acc.x", "acc.y", "acc.z"], ... }
+            const stressSensors = [];
+            const allSensors = Object.keys(displayMap);
+
+            // 识别加速度传感器 (acc.x, acc.y, acc.z 或其他前缀模式)
+            allSensors.forEach(sensor => {
+                const lower = sensor.toLowerCase();
+                // 提取前缀（在最后一个点或下划线之前）
+                const match = sensor.match(/^(.+)[._]Acc(X|Y|Z)$/i);
+                if (match) {
+                    const prefix = match[1];
+                    if (!accGroups[prefix]) accGroups[prefix] = [];
+                    accGroups[prefix].push(sensor);
+                }
+                // 识别应力传感器
+                if (lower.includes('s0')) {
+                    stressSensors.push(sensor);
+                }
+            });
+
+            // 为每个加速度传感器组计算模长 (magnitude)
+            Object.keys(accGroups).forEach(prefix => {
+                const group = accGroups[prefix];
+                if (group.length >= 2) {
+                    const magKey = `${prefix}_magnitude`;
+                    if (!displayMap[magKey]) {
+                        const times = displayMap[group[0]].times;
+                        const magValues = [];
+                        
+                        for (let i = 0; i < times.length; i++) {
+                            let sumSq = 0;
+                            let validCount = 0;
+                            for (const sensor of group) {
+                                const v = displayMap[sensor].values[i];
+                                if (Number.isFinite(v)) {
+                                    sumSq += v * v;
+                                    validCount++;
+                                }
+                            }
+                            // 只有至少有2个有效值才计算
+                            magValues.push(validCount >= 2 ? Math.sqrt(sumSq) : null);
+                        }
+                        displayMap[magKey] = { times, values: magValues };
+                    }
+                }
+            });
+
+            // 计算所有加速度传感器的和
+            const allAccSensors = Object.values(accGroups).flat();
+            if (allAccSensors.length > 0) {
+                const sumKey = 'acc_sum_all';
+                if (!displayMap[sumKey]) {
+                    const times = displayMap[allAccSensors[0]].times;
+                    const sumValues = [];
+                    
+                    for (let i = 0; i < times.length; i++) {
+                        let sum = 0;
+                        let validCount = 0;
+                        for (const sensor of allAccSensors) {
+                            const v = displayMap[sensor].values[i];
+                            if (Number.isFinite(v)) {
+                                sum += v;
+                                validCount++;
+                            }
+                        }
+                        sumValues.push(validCount > 0 ? sum : null);
+                    }
+                    displayMap[sumKey] = { times, values: sumValues };
+                }
+            }
+
+            // 计算所有应力传感器的和
+            if (stressSensors.length > 0) {
+                const sumKey = 'stress_sum_all';
+                if (!displayMap[sumKey]) {
+                    const times = displayMap[stressSensors[0]].times;
+                    const sumValues = [];
+                    
+                    for (let i = 0; i < times.length; i++) {
+                        let sum = 0;
+                        let validCount = 0;
+                        for (const sensor of stressSensors) {
+                            const v = displayMap[sensor].values[i];
+                            if (Number.isFinite(v)) {
+                                sum += v;
+                                validCount++;
+                            }
+                        }
+                        sumValues.push(validCount > 0 ? sum : null);
+                    }
+                    displayMap[sumKey] = { times, values: sumValues };
+                }
+            }
+
+            return displayMap;
+        }
+
+        function median(values) {
+            if (!values || values.length === 0) return 0;
+            const sorted = [...values].sort((a, b) => a - b);
+            const mid = Math.floor(sorted.length / 2);
+            return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
+        }
+
+        function getSegmentByTime(rawSeries, tMin, tMax) {
+            const times = [];
+            const values = [];
+            for (let i = 0; i < rawSeries.times.length; i++) {
+                const t = rawSeries.times[i];
+                const v = rawSeries.values[i];
+                if (t < tMin || t > tMax) continue;
+                if (!Number.isFinite(v)) continue;
+                times.push(t);
+                values.push(v);
+            }
+            return { times, values };
+        }
+
+        function decimateNoInterpolation(times, values, maxPoints) {
+            if (times.length <= maxPoints) return { times, values };
+            const stride = Math.max(1, Math.floor(times.length / maxPoints));
+            const outT = [];
+            const outV = [];
+            for (let i = 0; i < times.length; i += stride) {
+                outT.push(times[i]);
+                outV.push(values[i]);
+            }
+            return { times: outT, values: outV };
+        }
+
+        function computeSpectrogramNoInterpolation(rawSeries, tMin, tMax) {
+            const seg = getSegmentByTime(rawSeries, tMin, tMax);
+            if (seg.times.length < 32) return { data: [], tMin, tMax, fMax: 0, aMax: 0 };
+
+            const d = decimateNoInterpolation(seg.times, seg.values, MAX_FFT_POINTS);
+            const n = d.values.length;
+            if (n < 32) return { data: [], tMin, tMax, fMax: 0, aMax: 0 };
+
+            let windowSize = Math.min(256, Math.max(32, Math.floor(n / 4)));
+            windowSize = Math.min(windowSize, n);
+            if (windowSize < 16) return { data: [], tMin, tMax, fMax: 0, aMax: 0 };
+
+            const maxStart = Math.max(0, n - windowSize);
+            const maxPossibleBins = maxStart + 1;
+            const targetBins = Math.max(1, Math.min(specMaxTimeBins, maxPossibleBins));
+
+            const starts = [];
+            if (targetBins === 1) {
+                starts.push(0);
+            } else {
+                for (let b = 0; b < targetBins; b++) {
+                    const s = Math.round((b * maxStart) / (targetBins - 1));
+                    if (starts.length === 0 || s !== starts[starts.length - 1]) starts.push(s);
+                }
+            }
+            const timeBins = starts.length;
+
+            const freqBins = Math.min(specMaxFreqBins, Math.floor(windowSize / 2) + 1);
+            const heatData = [];
+            let aMax = 0;
+            let fMax = 0;
+
+            const allDts = [];
+            for (let i = 1; i < d.times.length; i++) allDts.push(d.times[i] - d.times[i - 1]);
+            const globalDt = median(allDts);
+            if (!Number.isFinite(globalDt) || globalDt <= 0) return { data: [], tMin, tMax, fMax: 0, aMax: 0 };
+
+            const df = 1 / (windowSize * globalDt);
+            const dtBin = timeBins > 1
+                ? (d.times[starts[timeBins - 1] + Math.floor(windowSize / 2)] - d.times[starts[0] + Math.floor(windowSize / 2)]) / (timeBins - 1)
+                : Math.max(globalDt, (tMax - tMin) || globalDt);
+            const dtCell = Number.isFinite(dtBin) && dtBin > 0 ? dtBin : globalDt;
+
+            for (let b = 0; b < timeBins; b++) {
+                const start = starts[b];
+                const end = start + windowSize;
+                const winT = d.times.slice(start, end);
+                const winV = d.values.slice(start, end);
+                if (winT.length !== windowSize || winV.length !== windowSize) continue;
+
+                let mean = 0;
+                for (let i = 0; i < windowSize; i++) mean += winV[i];
+                mean /= windowSize;
+                if (!Number.isFinite(mean)) continue;
+
+                const tCenter = winT[Math.floor(windowSize / 2)];
+
+                for (let k = 0; k < freqBins; k++) {
+                    let re = 0;
+                    let im = 0;
+                    for (let i = 0; i < windowSize; i++) {
+                        const x = winV[i] - mean;
+                        const angle = (2 * Math.PI * k * i) / windowSize;
+                        re += x * Math.cos(angle);
+                        im -= x * Math.sin(angle);
+                    }
+                    const f = k * df;
+                    const a = Math.sqrt(re * re + im * im) / windowSize;
+                    heatData.push([tCenter, f, a, dtCell, df]);
+                    if (f > fMax) fMax = f;
+                    if (a > aMax) aMax = a;
+                }
+            }
+
+            return { data: heatData, tMin, tMax, fMax, aMax };
+        }
+
+        function resolveValueByTime(sensor, time) {
+            const s = alignedData && alignedData[sensor];
+            if (!s || !s.times || s.times.length === 0) return null;
+
+            let nearestIdx = 0;
+            let minDiff = Math.abs(s.times[0] - time);
+            for (let i = 1; i < s.times.length; i++) {
+                const diff = Math.abs(s.times[i] - time);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    nearestIdx = i;
+                }
+            }
+            const v = s.values[nearestIdx];
+            return Number.isFinite(v) ? v : null;
+        }
+
+        function parseAnnotationsCSV(text) {
+            const lines = text.trim().split('\n');
+            if (lines.length <= 1) return [];
+
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+            const timeIdx = headers.indexOf('time');
+            const labelIdx = headers.indexOf('label');
+            if (timeIdx < 0) return [];
+
+            const imported = [];
+            for (let i = 1; i < lines.length; i++) {
+                const cols = lines[i].split(',').map(c => c.trim());
+                if (cols.length === 0) continue;
+                const time = parseFlexibleTime(cols[timeIdx]);
+                if (!Number.isFinite(time)) continue;
+
+                imported.push({
+                    time,
+                    text: labelIdx >= 0 ? (cols[labelIdx] || `标记${i}`) : `标记${i}`
+                });
+            }
+
+            if (imported.length > 0) {
+                const hasAbsoluteLikeTime = imported.some(x => x.time > 1e8);
+                if (hasAbsoluteLikeTime) {
+                    const base = Number.isFinite(rawDataStartTime) ? rawDataStartTime : imported[0].time;
+                    imported.forEach(x => {
+                        x.time = x.time - base;
+                    });
+                }
+            }
+
+            return imported;
+        }
+
+        function parseSensorDef(text) {
+            let items = [];
+            try {
+                items = JSON.parse(text);
+            } catch (e) {
+                alert('sensor_def.json 解析失败');
+                return;
+            }
+            if (!Array.isArray(items)) {
+                alert('sensor_def.json 格式无效，需为数组');
+                return;
+            }
+
+            const map = {};
+            items.forEach(item => {
+                const code = String(item && item.code ? item.code : '').trim();
+                const name = String(item && item.name ? item.name : '').trim();
+                if (code && name) map[code] = name;
+            });
+            sensorNameMap = map;
+            renderSensorSelector();
+        }
+
+        function formatSensorDisplayName(sensorKey) {
+            // 处理合成传感器的特殊名称
+            if (sensorKey === 'acc_sum_all') return '加速度合成和';
+            if (sensorKey === 'stress_sum_all') return '应力合成和';
+            if (sensorKey.endsWith('_magnitude')) {
+                const prefix = sensorKey.slice(0, -10); // 去掉 "_magnitude"
+                const parts = String(prefix).split('.');
+                const baseCode = parts[0] || prefix;
+                const suffix = parts[1] || '';
+                const cn = sensorNameMap[baseCode];
+                const baseName = cn || prefix;
+                return `${baseName} (模长)`;
+            }
+
+            const parts = String(sensorKey).split('.');
+            const baseCode = parts[0] || sensorKey;
+            const suffix = parts[1] || '';
+            const cn = sensorNameMap[baseCode];
+            if (!cn) return sensorKey;
+            return suffix ? `${cn}.${suffix}` : cn;
+        }
+
+        function renderSensorSelector() {
+            const select = document.getElementById('sensorSelect');
+            select.innerHTML = '';
+            if (!alignedData) return;
+
+            Object.keys(alignedData).forEach(sensor => {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.dataset.sensor = sensor;
+                input.checked = selectedSensors.includes(sensor);
+                input.onchange = () => {
+                    const checked = Array.from(document.querySelectorAll('.sensor-select input:checked'))
+                        .map(x => x.dataset.sensor);
+                    selectedSensors = checked;
+                    renderAllCharts();
+                };
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(formatSensorDisplayName(sensor)));
+                select.appendChild(label);
+            });
+        }
+
+        function renderAllCharts() {
+            const container = document.getElementById('chartsContainer');
+            container.innerHTML = '';
+            charts = {};
+            selectedSensors.forEach((sensor, idx) => {
+                if (!sensor || !alignedData[sensor]) return;
+                const rowId = `row${idx}`;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'chart-row';
+
+                const timeDiv = document.createElement('div');
+                timeDiv.id = `time-${rowId}`;
+                timeDiv.className = 'chart-time';
+
+                const freqDiv = document.createElement('div');
+                freqDiv.id = `freq-${rowId}`;
+                freqDiv.className = 'chart-freq';
+
+                wrapper.appendChild(timeDiv);
+                wrapper.appendChild(freqDiv);
+                container.appendChild(wrapper);
+
+                charts[rowId] = {
+                    sensor,
+                    timeChart: echarts.init(timeDiv),
+                    freqChart: echarts.init(freqDiv)
+                };
+                updateChart(rowId);
+            });
+        }
+
+        function getCurrentTimeWindow(rowId) {
+            const row = charts[rowId];
+            if (!row || !alignedData[row.sensor]) return null;
+            const option = row.timeChart.getOption();
+            const zoom = option.dataZoom && option.dataZoom[0] ? option.dataZoom[0] : { start: 0, end: 100 };
+
+            const times = alignedData[row.sensor].times;
+            if (!times || times.length === 0) return null;
+            const tStart = times[0];
+            const tEnd = times[times.length - 1];
+            const tMin = tStart + (zoom.start / 100) * (tEnd - tStart);
+            const tMax = tStart + (zoom.end / 100) * (tEnd - tStart);
+            return { tMin, tMax };
+        }
+
+        function updateFrequencyChart(rowId) {
+            const row = charts[rowId];
+            if (!row || !alignedRawData || !alignedRawData[row.sensor]) return;
+
+            const win = getCurrentTimeWindow(rowId) || {
+                tMin: alignedRawData[row.sensor].times[0],
+                tMax: alignedRawData[row.sensor].times[alignedRawData[row.sensor].times.length - 1]
+            };
+            const spec = computeSpectrogramNoInterpolation(alignedRawData[row.sensor], win.tMin, win.tMax);
+            const visualMax = spec.aMax > 0 ? spec.aMax : 1;
+            const sensorDisplayName = formatSensorDisplayName(row.sensor);
+
+            row.freqChart.setOption({
+                // title: { text: `${sensorDisplayName}`, left: 'center', top: 4, textStyle: { fontSize: 12 } },
+                xAxis: { type: 'value', name: 'Time (s)', min: spec.tMin, max: spec.tMax, scale: true },
+                yAxis: { type: 'value', name: 'Hz', min: 0, max: spec.fMax > 0 ? spec.fMax : null, scale: true },
+                visualMap: {
+                    min: 0,
+                    max: visualMax,
+                    calculable: false,
+                    orient: 'vertical',
+                    right: 2,
+                    top: 'middle',
+                    text: ['Amp', '0'],
+                    dimension: 2
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: (p) => `t=${(p.value[0] || 0).toFixed(3)}s<br/>f=${(p.value[1] || 0).toFixed(3)}Hz<br/>A=${(p.value[2] || 0).toFixed(6)}`
+                },
+                series: [{
+                    type: 'custom',
+                    data: spec.data,
+                    encode: { x: 0, y: 1, tooltip: [0, 1, 2] },
+                    renderItem: (params, api) => {
+                        const x = api.value(0);
+                        const y = api.value(1);
+                        const dt = api.value(3);
+                        const df = api.value(4);
+                        const p1 = api.coord([x - dt / 2, y - df / 2]);
+                        const p2 = api.coord([x + dt / 2, y + df / 2]);
+                        const x0 = Math.min(p1[0], p2[0]);
+                        const y0 = Math.min(p1[1], p2[1]);
+                        const w = Math.max(1, Math.abs(p2[0] - p1[0]));
+                        const h = Math.max(1, Math.abs(p2[1] - p1[1]));
+                        return {
+                            type: 'rect',
+                            shape: echarts.graphic.clipRectByRect(
+                                { x: x0, y: y0, width: w, height: h },
+                                { x: params.coordSys.x, y: params.coordSys.y, width: params.coordSys.width, height: params.coordSys.height }
+                            ),
+                            style: api.style({ stroke: 'none' })
+                        };
+                    },
+                    progressive: 2000,
+                    animation: false,
+                    emphasis: { itemStyle: { borderColor: '#333', borderWidth: 1 } },
+                    silent: false
+                }]
+            });
+        }
+
+        function updateChart(rowId) {
+            const row = charts[rowId];
+            if (!row || !row.sensor || !alignedData[row.sensor] || !row.timeChart) return;
+            const sensor = row.sensor;
+            const sensorDisplayName = formatSensorDisplayName(sensor);
+            const chart = row.timeChart;
+
+            const s = alignedData[sensor];
+            const seriesData = s.times.map((t, i) => [t, s.values[i]]);
+            
+            // 计算所有标注在当前传感器曲线上的投影点
+            const markPointData = annotations
+                .map(a => ({
+                    coord: [getEffectiveAnnotationTime(a), resolveValueByTime(sensor, getEffectiveAnnotationTime(a))],
+                    name: a.text,
+                    value: a.text,
+                    label: { show: true, formatter: a.text }
+                }))
+                .filter(m => Number.isFinite(m.coord[1]));
+
+            const option = {
+                xAxis: { type: 'value', name: 'Time (s)', gridIndex: 0 },
+                yAxis: { name: sensorDisplayName, gridIndex: 0, scale: true },
+                grid: { left: '15%', right: '10%', top: '10%', bottom: '10%', containLabel: false },
+                series: [{
+                    name: sensorDisplayName,
+                    data: seriesData,
+                    type: 'line',
+                    smooth: true,
+                    markPoint: { data: markPointData, symbolSize: 8 },
+                    lineStyle: { width: 2 }
+                }],
+                tooltip: { trigger: 'axis', formatter: (params) => {
+                    if (!params || params.length === 0) return '';
+                    const p = params[0];
+                    return `Time: ${p.value[0].toFixed(3)}s<br/>${sensor}: ${(p.value[1] || 0).toFixed(4)}`;
+                }},
+                dataZoom: [
+                    { type: 'inside', xAxisIndex: [0], filterMode: 'filter' },
+                    { type: 'slider', xAxisIndex: [0], height: 20 }
+                ]
+            };
+            chart.setOption(option);
+
+            // 监听click事件添加标注
+            chart.off('click');
+            chart.on('click', (params) => {
+                if (!params.value) return;
+                const [time, value] = params.value;
+                const label = `标记${annotations.length + 1}`;
+                annotations.push({ time, value, text: label });
+                renderAnnotations();
+                updateChart(rowId);
+                syncAllCharts();
+            });
+
+            // 数据变化时同步其他图表
+            chart.off('datazoom');
+            chart.on('datazoom', () => {
+                syncAllCharts();
+                Object.keys(charts).forEach(id => updateFrequencyChart(id));
+            });
+
+            updateFrequencyChart(rowId);
+        }
+
+        function syncAllCharts() {
+            const chartIds = Object.keys(charts);
+            if (chartIds.length <= 1) return;
+            const refChart = charts[chartIds[0]].timeChart;
+            const refOption = refChart.getOption();
+            const refZoom = refOption.dataZoom?.[0];
+            if (!refZoom) return;
+
+            chartIds.slice(1).forEach(cid => {
+                const chart = charts[cid].timeChart;
+                const opt = chart.getOption();
+                if (opt.dataZoom) {
+                    opt.dataZoom[0].start = refZoom.start;
+                    opt.dataZoom[0].end = refZoom.end;
+                    chart.setOption(opt);
+                }
+            });
+        }
+
+        document.getElementById('csvFile').addEventListener('change', e => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                data = parseCSV(ev.target.result);
+                rawDataStartTime = getDataStartTime(data);
+                alignedRawData = alignStartTimesRaw(data);
+                alignedRawData = addCompositeData(alignedRawData, alignedRawData);
+                alignedData = buildDisplayDataFromRaw(alignedRawData);
+                selectedSensors = [];
+                renderSensorSelector();
+            };
+            reader.readAsText(e.target.files[0]);
+        });
+
+        document.getElementById('sensorDefFile').addEventListener('change', e => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = ev => parseSensorDef(ev.target.result || '[]');
+            reader.readAsText(file);
+        });
+
+        document.getElementById('annFile').addEventListener('change', e => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const imported = parseAnnotationsCSV(ev.target.result || '');
+                annotations = imported;
+                renderAnnotations();
+                Object.keys(charts).forEach(cid => updateChart(cid));
+            };
+            reader.readAsText(file);
+        });
+
+        document.getElementById('annTimeOffset').addEventListener('input', e => {
+            const v = parseFloat(e.target.value);
+            annotationTimeOffset = Number.isFinite(v) ? v : 0;
+            renderAnnotations();
+            Object.keys(charts).forEach(cid => updateChart(cid));
+        });
+
+        document.getElementById('specTimeBins').addEventListener('input', e => {
+            const v = parseInt(e.target.value, 10);
+            specMaxTimeBins = Number.isFinite(v) ? Math.max(8, Math.min(120, v)) : 36;
+            e.target.value = String(specMaxTimeBins);
+            Object.keys(charts).forEach(cid => updateFrequencyChart(cid));
+        });
+
+        document.getElementById('specFreqBins').addEventListener('input', e => {
+            const v = parseInt(e.target.value, 10);
+            specMaxFreqBins = Number.isFinite(v) ? Math.max(8, Math.min(256, v)) : 64;
+            e.target.value = String(specMaxFreqBins);
+            Object.keys(charts).forEach(cid => updateFrequencyChart(cid));
+        });
+
+        function renderAnnotations() {
+            const list = document.getElementById('annotationsList');
+            list.innerHTML = '';
+            annotations.forEach((a, i) => {
+                const row = document.createElement('div');
+                row.className = 'annotation';
+
+                const main = document.createElement('div');
+                main.className = 'annotation-main';
+
+                const meta = document.createElement('span');
+                meta.className = 'annotation-meta';
+                const t = getEffectiveAnnotationTime(a);
+                meta.textContent = `${t.toFixed(2)}s${Number.isFinite(a.value) ? `, ${a.value.toFixed(4)}` : ''}`;
+
+                const input = document.createElement('input');
+                input.className = 'annotation-name';
+                input.type = 'text';
+                input.value = a.text || '';
+                input.placeholder = '标注名称';
+                input.addEventListener('input', (e) => updateAnnotationText(i, e.target.value));
+
+                const delBtn = document.createElement('button');
+                delBtn.textContent = 'Delete';
+                delBtn.addEventListener('click', () => deleteAnnotation(i));
+
+                main.appendChild(meta);
+                main.appendChild(input);
+                row.appendChild(main);
+                row.appendChild(delBtn);
+                list.appendChild(row);
+            });
+        }
+
+        function updateAnnotationText(i, text) {
+            if (!annotations[i]) return;
+            annotations[i].text = text;
+            Object.keys(charts).forEach(cid => updateChart(cid));
+        }
+
+        function deleteAnnotation(i) {
+            annotations.splice(i, 1);
+            renderAnnotations();
+            Object.keys(charts).forEach(cid => updateChart(cid));
+        }
+
+        function exportAnnotations() {
+            if (annotations.length === 0) {
+                alert('No annotations to export');
+                return;
+            }
+            const csv = 'time,label\n' + annotations.map(a => `${getEffectiveAnnotationTime(a)},${a.text}`).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'annotations.csv';
+            a.click();
+        }
+
+        window.addEventListener('resize', () => {
+            Object.values(charts).forEach(row => {
+                row.timeChart?.resize();
+                row.freqChart?.resize();
+            });
+        });
+    </script>
+</body>
+</html>

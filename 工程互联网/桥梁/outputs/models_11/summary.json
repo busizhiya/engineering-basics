@@ -1,0 +1,29 @@
+{
+  "batches": [
+    "batch1",
+    "batch2",
+    "batch3"
+  ],
+  "total_points": 121,
+  "model_count": 11,
+  "positions_cm": [
+    38.0,
+    45.5,
+    53.0,
+    60.5,
+    68.0,
+    75.5,
+    83.0,
+    90.5,
+    98.0,
+    105.5,
+    113.0
+  ],
+  "outputs": {
+    "scatter_with_11_fits": "D:\\code\\bridge\\outputs\\models_11\\scatter_with_11_fits.png",
+    "models_11_parameters": "D:\\code\\bridge\\outputs\\models_11\\models_11_parameters.png",
+    "models_params_csv": "D:\\code\\bridge\\outputs\\models_11\\models_11_params.csv",
+    "models_forced_m0_params_csv": "D:\\code\\bridge\\outputs\\models_11\\models_forced_m0_params.csv",
+    "models_json": "D:\\code\\bridge\\outputs\\models_11\\models_11.json"
+  }
+}

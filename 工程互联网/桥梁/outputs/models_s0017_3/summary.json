@@ -1,0 +1,33 @@
+{
+  "signal_column": "s0017-3.chdata",
+  "batches": [
+    "batch1",
+    "batch2",
+    "batch3"
+  ],
+  "total_points": 121,
+  "model_count": 11,
+  "positions_cm": [
+    38.0,
+    45.5,
+    53.0,
+    60.5,
+    68.0,
+    75.5,
+    83.0,
+    90.5,
+    98.0,
+    105.5,
+    113.0
+  ],
+  "outputs": {
+    "annotated_relative_displacement": "outputs\\models_s0017_3\\annotated_relative_displacement.png",
+    "scatter_with_11_fits": "outputs\\models_s0017_3\\scatter_with_11_fits.png",
+    "models_11_parameters": "outputs\\models_s0017_3\\models_11_parameters.png",
+    "aligned_x0_x10_overlay": "outputs\\models_s0017_3\\aligned_x0_x10_overlay.png",
+    "aligned_x0_height_overlay": "outputs\\models_s0017_3\\aligned_x0_height_overlay.png",
+    "models_params_csv": "outputs\\models_s0017_3\\models_11_params.csv",
+    "models_forced_m0_params_csv": "outputs\\models_s0017_3\\models_forced_m0_params.csv",
+    "models_json": "outputs\\models_s0017_3\\models_11.json"
+  }
+}

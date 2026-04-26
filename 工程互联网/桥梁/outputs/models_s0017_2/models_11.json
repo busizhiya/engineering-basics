@@ -1,0 +1,87 @@
+{
+  "model_type": "mass = slope * relative_displacement + intercept",
+  "reference_displacement": "per-position baseline from annotation ref labels (ref1/ref2/...) in each batch",
+  "forced_m0_intersection": {
+    "enabled": true,
+    "intersection_y": 0.0
+  },
+  "models": {
+    "pos_38cm": {
+      "position_cm": 38.0,
+      "slope_mass_vs_disp": -0.8326498593118304,
+      "intercept": 3.5321387469686063,
+      "r2": 0.7585537534723811,
+      "n": 11
+    },
+    "pos_45.5cm": {
+      "position_cm": 45.5,
+      "slope_mass_vs_disp": -4.184347050071071,
+      "intercept": 2.833520323482071,
+      "r2": 0.9849587912361437,
+      "n": 11
+    },
+    "pos_53cm": {
+      "position_cm": 53.0,
+      "slope_mass_vs_disp": -5.1383674562440715,
+      "intercept": 2.4448382170888867,
+      "r2": 0.9481810209269884,
+      "n": 11
+    },
+    "pos_60.5cm": {
+      "position_cm": 60.5,
+      "slope_mass_vs_disp": -4.846631804206845,
+      "intercept": 3.5525536625190335,
+      "r2": 0.980970561277801,
+      "n": 11
+    },
+    "pos_68cm": {
+      "position_cm": 68.0,
+      "slope_mass_vs_disp": -0.7130834584623582,
+      "intercept": 4.072444319084867,
+      "r2": 0.5404371464169215,
+      "n": 11
+    },
+    "pos_75.5cm": {
+      "position_cm": 75.5,
+      "slope_mass_vs_disp": -1.0501529993693595,
+      "intercept": 1.2288080206824001,
+      "r2": 0.9980609898896848,
+      "n": 11
+    },
+    "pos_83cm": {
+      "position_cm": 83.0,
+      "slope_mass_vs_disp": -0.7722643527319714,
+      "intercept": 1.4078593484459743,
+      "r2": 0.9990489963339069,
+      "n": 11
+    },
+    "pos_90.5cm": {
+      "position_cm": 90.5,
+      "slope_mass_vs_disp": -0.49111853184808174,
+      "intercept": 0.9017319558634327,
+      "r2": 0.9986247707087061,
+      "n": 11
+    },
+    "pos_98cm": {
+      "position_cm": 98.0,
+      "slope_mass_vs_disp": -0.8646936958379731,
+      "intercept": 3.1440957857612957,
+      "r2": 0.9057231017174663,
+      "n": 11
+    },
+    "pos_105.5cm": {
+      "position_cm": 105.5,
+      "slope_mass_vs_disp": -0.7538162953253574,
+      "intercept": -2.268691060148204,
+      "r2": 0.9860871452333828,
+      "n": 11
+    },
+    "pos_113cm": {
+      "position_cm": 113.0,
+      "slope_mass_vs_disp": -0.6465122576119033,
+      "intercept": -0.5851136893404535,
+      "r2": 0.9973762905647429,
+      "n": 11
+    }
+  }
+}

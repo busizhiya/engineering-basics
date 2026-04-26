@@ -1,0 +1,2 @@
+﻿mode,signal_column,sensor_cm,load_cm,input_relative_displacement,pred_mass,k_disp_vs_mass,c_disp_vs_mass
+displacement_to_mass,s0017-1.chdata,80.0,85.0,-2.95,10.301598941199698,2.4123559225305815,-27.80112321733786

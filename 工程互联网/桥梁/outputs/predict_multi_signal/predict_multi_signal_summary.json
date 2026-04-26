@@ -1,0 +1,52 @@
+{
+  "signal_columns": [
+    "dist_01.dist",
+    "s0017-1.chdata",
+    "s0017-2.chdata",
+    "s0017-3.chdata"
+  ],
+  "processed_signal_count": 4,
+  "output_summary_csv": "D:\\code\\bridge\\outputs\\predict_multi_signal\\predict_multi_signal_summary.csv",
+  "results": [
+    {
+      "mode": "displacement_to_mass",
+      "signal_column": "dist_01.dist",
+      "sensor_cm": 80.0,
+      "load_cm": 85.0,
+      "input_relative_displacement": -2.95,
+      "pred_mass": 6.907667530764487,
+      "k_disp_vs_mass": -0.39960050597467944,
+      "c_disp_vs_mass": -0.189692559601647
+    },
+    {
+      "mode": "displacement_to_mass",
+      "signal_column": "s0017-1.chdata",
+      "sensor_cm": 80.0,
+      "load_cm": 85.0,
+      "input_relative_displacement": -2.95,
+      "pred_mass": 10.301598941199698,
+      "k_disp_vs_mass": 2.4123559225305815,
+      "c_disp_vs_mass": -27.80112321733786
+    },
+    {
+      "mode": "displacement_to_mass",
+      "signal_column": "s0017-2.chdata",
+      "sensor_cm": 80.0,
+      "load_cm": 85.0,
+      "input_relative_displacement": -2.95,
+      "pred_mass": 8.715924688397607,
+      "k_disp_vs_mass": 0.9630267842344127,
+      "c_disp_vs_mass": -11.343668924296871
+    },
+    {
+      "mode": "displacement_to_mass",
+      "signal_column": "s0017-3.chdata",
+      "sensor_cm": 80.0,
+      "load_cm": 85.0,
+      "input_relative_displacement": -2.95,
+      "pred_mass": 17.76159445545587,
+      "k_disp_vs_mass": -1.8631523040492173,
+      "c_disp_vs_mass": 30.142555633270405
+    }
+  ]
+}

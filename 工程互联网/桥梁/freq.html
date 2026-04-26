@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Frequency Motion Demo (Accurate)</title>
+</head>
+<body>
+
+<p>
+Frequency: <span id="freqValue">1</span> Hz |
+Period: <span id="periodValue">1.00</span> s
+</p>
+
+<input type="range" id="slider" min="0.2" max="15" step="0.1" value="1">
+
+<canvas id="canvas" width="600" height="200"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const slider = document.getElementById("slider");
+
+const freqText = document.getElementById("freqValue");
+const periodText = document.getElementById("periodValue");
+
+let freq = parseFloat(slider.value);
+let startTime = null;
+
+slider.oninput = () => {
+    freq = parseFloat(slider.value);
+    freqText.textContent = freq.toFixed(1);
+    periodText.textContent = (1 / freq).toFixed(2);
+};
+
+function draw(timestamp) {
+    if (!startTime) startTime = timestamp;
+
+    // 用真实时间（秒）
+    let t = (timestamp - startTime) / 1000;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    let centerX = canvas.width / 2;
+    let amplitude = 10;
+    let y = canvas.height / 2;
+
+    // 正确的简谐运动：sin(2π f t)
+    let x = centerX + amplitude * Math.sin(2 * Math.PI * freq * t);
+
+    // 轨道
+    ctx.beginPath();
+    ctx.moveTo(centerX - amplitude, y);
+    ctx.lineTo(centerX + amplitude, y);
+    ctx.stroke();
+
+    // 小球
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    requestAnimationFrame(draw);
+}
+
+requestAnimationFrame(draw);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "data_csv": "D:\\code\\bridge\\2026.3.30_test_wide.csv",
+  "annotations_csv": "D:\\code\\bridge\\annotations_sorted_renamed.csv",
+  "rows_data": 84197,
+  "rows_annotations_used": 165,
+  "linear_model_count": 15,
+  "continuous_parameter_count": 17,
+  "k_surface_rmse": 0.008694730798813518,
+  "c_surface_rmse": 0.07209391678349786,
+  "artifacts": {
+    "params_csv": "D:\\code\\bridge\\outputs\\models_15_params.csv",
+    "scatter_plot": "D:\\code\\bridge\\outputs\\train_mass_displacement_scatter.png",
+    "params_plot": "D:\\code\\bridge\\outputs\\train_15_linear_model_params.png",
+    "surface_fit_plot": "D:\\code\\bridge\\outputs\\train_continuous_surface_fit.png",
+    "surface_3d_plot": "D:\\code\\bridge\\outputs\\train_continuous_surface_3d.png",
+    "aligned_x0_height_overlay": "D:\\code\\bridge\\outputs\\train_aligned_x0_height_overlay.png",
+    "continuous_model_json": "D:\\code\\bridge\\outputs\\continuous_mass_disp_model.json"
+  }
+}

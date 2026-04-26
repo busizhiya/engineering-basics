@@ -1,0 +1,2 @@
+﻿mode,signal_column,sensor_cm,load_cm,input_relative_displacement,pred_mass,k_disp_vs_mass,c_disp_vs_mass
+displacement_to_mass,dist_01.dist,80.0,85.0,-2.95,6.907667530764487,-0.39960050597467944,-0.189692559601647

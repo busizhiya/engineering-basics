@@ -1,0 +1,10 @@
+{
+  "mode": "displacement_to_mass",
+  "signal_column": "dist_01.dist",
+  "sensor_cm": 80.0,
+  "load_cm": 85.0,
+  "input_relative_displacement": -2.95,
+  "pred_mass": 6.907667530764487,
+  "k_disp_vs_mass": -0.39960050597467944,
+  "c_disp_vs_mass": -0.189692559601647
+}

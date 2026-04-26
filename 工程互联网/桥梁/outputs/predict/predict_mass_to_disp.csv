@@ -1,0 +1,2 @@
+﻿mode,sensor_cm,load_cm,mass,pred_relative_displacement,k_disp_vs_mass,c_disp_vs_mass
+mass_to_displacement,98.0,68.0,9.867,-2.606899335873506,-0.241673902626698,-0.2223029386558768

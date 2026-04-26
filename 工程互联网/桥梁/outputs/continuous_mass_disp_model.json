@@ -1,0 +1,74 @@
+{
+  "signal_column": "dist_01.dist",
+  "displacement_definition": "relative_to_ref_by_sensor",
+  "sensor_code_to_cm": {
+    "1": 38.0,
+    "2": 68.0,
+    "3": 98.0
+  },
+  "load_code_to_cm": {
+    "1": 38.0,
+    "2": 68.0,
+    "3": 98.0,
+    "4": 128.0,
+    "5": 158.0
+  },
+  "k_feature_type": "poly2_diag_rbf",
+  "c_feature_type": "poly2",
+  "k_feature_names": [
+    "1",
+    "sensor",
+    "load",
+    "sensor*load",
+    "sensor^2",
+    "load^2",
+    "rbf_delta_15",
+    "rbf_delta_30",
+    "rbf_delta_50",
+    "sensor_norm*rbf_delta_15",
+    "sensor_norm*rbf_delta_30"
+  ],
+  "c_feature_names": [
+    "1",
+    "sensor",
+    "load",
+    "sensor*load",
+    "sensor^2",
+    "load^2"
+  ],
+  "k_coef": [
+    0.3128926620941734,
+    -0.008486745107183146,
+    -0.0033855774490823827,
+    2.9521922952537467e-05,
+    3.715282672947584e-05,
+    7.87916165110889e-06,
+    -0.09466721359677148,
+    -0.09469398682431747,
+    -0.09049834392913662,
+    -0.032226087597077714,
+    0.11140270210857964
+  ],
+  "c_coef": [
+    -1.9310743789529783,
+    0.04342219678523369,
+    -0.002951974156422626,
+    -6.808402242179913e-05,
+    -0.00022518420938092576,
+    5.850161554805794e-05
+  ],
+  "train_sensor_cm_range": [
+    38.0,
+    98.0
+  ],
+  "train_load_cm_range": [
+    38.0,
+    158.0
+  ],
+  "reference_baseline_by_ref": {
+    "1": 192.235465,
+    "2": 190.599309,
+    "3": 190.710783
+  },
+  "parameter_count": 17
+}

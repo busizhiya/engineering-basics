@@ -1,0 +1,14 @@
+{
+  "data_csv": "D:\\code\\bridge\\2026.3.30_test_wide.csv",
+  "annotations_csv": "D:\\code\\bridge\\annotations_sorted_renamed.csv",
+  "model_csv": "outputs\\models_s0017_3\\models_forced_m0_params.csv",
+  "signal_column": "s0017-3.chdata",
+  "sensor_position_cm": 68.0,
+  "slope_disp_vs_mass": 2.797336070547092,
+  "window_count": 3,
+  "pred_mass_mean": -5.563503493148841,
+  "pred_mass_min": -7.816544544010984,
+  "pred_mass_max": -3.237568090354175,
+  "output_csv": "outputs\\predict_peak_s0017_3\\predict_mass_from_st_windows.csv",
+  "output_plot": "outputs\\predict_peak_s0017_3\\st_windows_relative_disp.png"
+}
