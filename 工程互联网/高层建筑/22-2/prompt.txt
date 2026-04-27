@@ -1,0 +1,42 @@
+
+1.问题背景
+    我们要预测高层建筑在特定驱动下的响应. 现在有六个加速度传感器和两个应变传感器,频率是50Hz.
+    我们使用某年地震录制/生成的数据作为驱动,用单轴振动台进行模拟.
+    振动台上有一个建筑模型:其中加速度计06位于振动台上,可以等效为驱动.剩余五个加速度计分别位于建筑的不同高度.两个应变传感器位于模型支撑轴底端.
+    输入是驱动(近似可以看作“加速度计6”)的x、y、z三轴的加速度的时序序列,输出是其他五个加速度传感器的x、y、z和变力传感器的时序序列.
+
+2.数据说明
+    raw_data文件夹中所有.csv文件都是记录的传感数据。
+    以下是对应关系：
+    WSMS00007|加速度01
+    WSMS00008|加速度02
+    WSMS00009|加速度03
+    WSMS00010|加速度04
+    WSMS00011|加速度05
+    WSGD00003|应变01
+    WSGD00004|应变02
+    WSMS00012|加速度06
+
+    其中：加速度06可视作“驱动”，其余视作响应。每个加速度传感器都对应三个轴x、y、z的数据，每个应变传感器对应一个值。
+
+    需要对数据做以下清洗处理：
+    1.我们只采用具备所有传感器数值的时序帧，故需要去除开头不完整的序列帧。
+    2.计算并去除趋势项
+    3.进行傅里叶变换后分析，自动滤波。
+
+3.数据清洗
+    现在请写一个UI界面，可以显示并选择raw_data目录下的某一个csv数据，然后需要实现三个子功能：
+    1.可视化显示原数据：
+      每一个传感器一张图，不同xyz用不同颜色标注，可以选择性的显示某个轴的数据
+    2.趋势项影响分析：
+      分别计算去掉趋势项后每个传感器的数值偏差有多少。
+    3.傅里叶变换与主频分析
+      与功能一的UI逻辑类似，标出建议带波区间，并给出滤波后的数据
+
+4.Neural network architecture.
+    Now I need you to write a neural network architecture and training&infer pipeline code.
+    Your goal is to use sequential data of accelemeter sensor 06 to predict all other data(other 5 accelemeter sensors and 2 strain sensors).
+    Considering it's a many to many sequence problem, maybe you can use LSTM  or similar stuff to achieve this goal. You can explore what architecture might be
+    the best one according to our background , target and data.
+
+    

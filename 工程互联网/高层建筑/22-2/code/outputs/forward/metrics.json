@@ -1,0 +1,32 @@
+{
+  "task": "forward",
+  "best_epoch": 12,
+  "best_val_loss": 32.448209050430016,
+  "test_rmse_all": 9.22382640838623,
+  "test_rmse_by_channel": {
+    "WSMS00007.AccX": 1.189766526222229,
+    "WSMS00007.AccY": 1.387863039970398,
+    "WSMS00007.AccZ": 2.6501479148864746,
+    "WSMS00008.AccX": 0.7364785671234131,
+    "WSMS00008.AccY": 0.9329828023910522,
+    "WSMS00008.AccZ": 1.7480316162109375,
+    "WSMS00009.AccX": 0.7496842741966248,
+    "WSMS00009.AccY": 0.13280561566352844,
+    "WSMS00009.AccZ": 0.9834349751472473,
+    "WSMS00010.AccX": 1.0094133615493774,
+    "WSMS00010.AccY": 0.32124361395835876,
+    "WSMS00010.AccZ": 1.0179762840270996,
+    "WSMS00011.AccX": 1.8479293584823608,
+    "WSMS00011.AccY": 0.13976606726646423,
+    "WSMS00011.AccZ": 0.4075331389904022,
+    "WSGD00003.chdata": 20.912578582763672,
+    "WSGD00004.chdata": 31.413925170898438
+  },
+  "windows": {
+    "train": 1828,
+    "val": 383,
+    "test": 470
+  },
+  "checkpoint": "outputs\\forward\\best.pt",
+  "loss_curve": "outputs\\forward\\loss_curve.png"
+}
