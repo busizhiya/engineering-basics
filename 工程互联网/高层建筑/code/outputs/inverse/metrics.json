@@ -1,0 +1,18 @@
+{
+  "task": "inverse",
+  "best_epoch": 20,
+  "best_val_loss": 0.022716833307716615,
+  "test_rmse_all": 0.3911818861961365,
+  "test_rmse_by_channel": {
+    "WSMS00012.AccX": 0.6625778675079346,
+    "WSMS00012.AccY": 0.09136424213647842,
+    "WSMS00012.AccZ": 0.10810498148202896
+  },
+  "windows": {
+    "train": 1828,
+    "val": 383,
+    "test": 470
+  },
+  "checkpoint": "outputs\\inverse\\best.pt",
+  "loss_curve": "outputs\\inverse\\loss_curve.png"
+}
